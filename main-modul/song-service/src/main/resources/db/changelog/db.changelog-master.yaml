@@ -1,0 +1,4 @@
+databaseChangeLog:
+  - include:
+      file: songs/master.yaml
+      relativeToChangelogFile: true
