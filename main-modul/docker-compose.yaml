@@ -22,6 +22,34 @@ services:
 
     tmpfs:
       - "/home/sirius/data/resources-amazon-storage/:uid=2000,gid=2000"
+
+  resources-service:
+    container_name: resources-service
+    build: resource-service/
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
+      - ninja
+
+  songs-service:
+    build: song-service/
+    container_name: song-service
+    ports:
+      - 8081:8081
+    depends_on:
+      - db
+      - ninja
+
+  resource-processor:
+    build: resource-processor/
+    container_name: resource-processor
+    ports:
+      - 8082:8082
+    depends_on:
+      - db
+      - ninja
+
 volumes:
   db:
     driver: local
