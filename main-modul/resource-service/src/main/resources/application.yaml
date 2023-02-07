@@ -1,0 +1,16 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    platform: postgres
+    url: jdbc:postgresql://localhost:5432/resources
+    username: postgres
+    password: postgres
+    driverClassName: org.postgresql.Driver
+
+aws:
+  url: http://localhost:9444/s3
+  bucket-name: resources-amazon-storage
+  access-key: AKIAIOSFODNN7EXAMPLE
+  secret-key: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY

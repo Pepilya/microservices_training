@@ -10,6 +10,18 @@ services:
       - '5432:5432'
     volumes:
       - db:/var/lib/postgresql/data
+  ninja:
+    container_name: s3-ninja
+    image: scireum/s3-ninja:6
+    restart: always
+    environment:
+      - BUCKET_NAME=resources-amazon-storage
+
+    ports:
+      - 9444:9000
+
+    tmpfs:
+      - "/home/sirius/data/resources-amazon-storage/:uid=2000,gid=2000"
 volumes:
   db:
     driver: local
