@@ -1,4 +1,4 @@
-package com.microservices.training.resource.infrastructure.aws;
+package com.microservices.training.resource.config;
 
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;

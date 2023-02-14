@@ -1,7 +1,9 @@
 package com.microservices.training.resource.service;
 
-import com.microservices.training.resource.infrastructure.aws.AwsProperties;
+import com.microservices.training.resource.config.AwsProperties;
 import com.microservices.training.resource.infrastructure.aws.FileStore;
+import com.microservices.training.resource.infrastructure.kafka.ResourceEvent;
+import com.microservices.training.resource.infrastructure.kafka.ResourceProducer;
 import com.microservices.training.resource.infrastructure.persistence.ResourceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,7 @@ public class ResourceServiceImpl implements ResourceService {
     private final FileStore fileStore;
     private final AwsProperties awsProperties;
     private final ResourceRepository repo;
+    private final ResourceProducer resourceProducer;
 
     @Override
     public Integer create(MultipartFile file) throws IOException {
@@ -28,13 +31,16 @@ public class ResourceServiceImpl implements ResourceService {
         String path = String.format("%s/%s", bucketName, UUID.randomUUID());
         String fileName = String.format("%s", file.getOriginalFilename());
         fileStore.upload(path, fileName, Optional.of(metadata), file.getInputStream());
-        ResourceEntity entity = repo.save(
-                ResourceEntity.builder()
-                        .fileName(fileName)
-                        .path(path)
-                        .build()
-        );
+        ResourceEntity entity = repo.save(build(fileName, path));
+        resourceProducer.sendEvent(new ResourceEvent(entity.getId()));
         return entity.getId();
+    }
+
+    private ResourceEntity build(String fileName, String path) {
+        return ResourceEntity.builder()
+                .fileName(fileName)
+                .path(path)
+                .build();
     }
 
     @Override

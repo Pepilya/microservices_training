@@ -7,3 +7,11 @@ databaseChangeLog:
   - include:
       file: ddl/001_create_tables.sql
       relativeToChangelogFile: true
+
+  - changeSet:
+      id: 2
+      author: pepeliaevi
+
+  - include:
+      file: ddl/002_alter_tables.sql
+      relativeToChangelogFile: true

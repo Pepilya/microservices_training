@@ -2,12 +2,28 @@ server:
   port: 8080
 
 spring:
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
   datasource:
     platform: postgres
     url: jdbc:postgresql://localhost:5432/resources
     username: postgres
     password: postgres
     driverClassName: org.postgresql.Driver
+  cloud:
+    stream:
+      default:
+        contentType: application/json
+      kafka:
+        bindings:
+          resources.dev:
+            destination: resources.dev
+            contentType: application/json
+        binder:
+          brokers: localhost:9092,localhost:9093,localhost:9094
+          requiredAcks: all
 
 aws:
   url: http://localhost:9444/s3

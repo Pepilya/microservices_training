@@ -1,0 +1,26 @@
+server:
+  port: 8082
+
+spring:
+  cloud:
+    stream:
+      default:
+        group: resource-processor.local
+      kafka:
+        default:
+          consumer:
+            startOffset: latest
+        binder:
+          brokers: localhost:9092,localhost:9093,localhost:9094
+      bindings:
+        resources:
+          destination: resources.dev
+          contentType: application/json
+
+resources-client:
+  url: http://localhost:8080
+  name: "resources"
+
+songs-client:
+  url: http://localhost:8081
+  name: "songs"

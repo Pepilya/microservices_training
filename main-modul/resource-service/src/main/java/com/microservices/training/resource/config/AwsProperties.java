@@ -1,4 +1,4 @@
-package com.microservices.training.resource.infrastructure.aws;
+package com.microservices.training.resource.config;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

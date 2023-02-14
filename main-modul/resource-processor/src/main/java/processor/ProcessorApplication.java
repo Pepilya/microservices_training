@@ -1,14 +1,16 @@
-package com.microservices.training.resource;
+package processor;
 
-import com.microservices.training.resource.config.ResourceProcessor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.cloud.stream.annotation.EnableBinding;
+import processor.config.Sink;
 
 @SpringBootApplication
-@EnableBinding(ResourceProcessor.class)
-public class ResourceApplication {
+@EnableBinding(Sink.class)
+@EnableFeignClients
+public class ProcessorApplication {
     public static void main(String[] args) {
-        SpringApplication.run(ResourceApplication.class, args);
+        SpringApplication.run(ProcessorApplication.class, args);
     }
 }
