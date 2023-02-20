@@ -3,6 +3,7 @@ package com.microservices.training.song.web;
 import com.microservices.training.song.service.SongEntity;
 import com.microservices.training.song.service.SongService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
@@ -12,6 +13,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/v1/songs")
 @RequiredArgsConstructor
+@Slf4j
 public class SongController {
 
     private final SongService service;
@@ -25,16 +27,19 @@ public class SongController {
 
     @GetMapping("/{id}")
     public SongResource getSongById(@PathVariable Integer id) {
+        log.info("GET id = {}", id);
         return mapSongResource(service.get(id));
     }
 
     @PostMapping
     public SongResponse createSong(@RequestBody SongResource songResource) {
+        log.info("POST resource = {}", songResource);
         Integer id = service.create(mapSongEntity(songResource));
         return new SongResponse(id);
     }
     @DeleteMapping
     public List<Integer> deleteSongs(@RequestParam("id") String idStr) {
+        log.info("DELETE resource = {}", idStr);
         List<Integer> idList = Arrays.stream(idStr.split(","))
                 .map(Integer::valueOf)
                 .collect(Collectors.toList());

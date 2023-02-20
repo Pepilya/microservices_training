@@ -1,10 +1,10 @@
-package processor;
+package com.microservices.training.processor;
 
+import com.microservices.training.processor.config.Sink;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.cloud.stream.annotation.EnableBinding;
-import processor.config.Sink;
 
 @SpringBootApplication
 @EnableBinding(Sink.class)

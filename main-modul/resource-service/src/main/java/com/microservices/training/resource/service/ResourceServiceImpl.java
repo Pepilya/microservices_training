@@ -7,6 +7,7 @@ import com.microservices.training.resource.infrastructure.kafka.ResourceProducer
 import com.microservices.training.resource.infrastructure.persistence.ResourceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -23,6 +24,7 @@ public class ResourceServiceImpl implements ResourceService {
     private final ResourceProducer resourceProducer;
 
     @Override
+    @Transactional
     public Integer create(MultipartFile file) throws IOException {
         Map<String, String> metadata = new HashMap<>();
         metadata.put("Content-Type", file.getContentType());
@@ -44,6 +46,7 @@ public class ResourceServiceImpl implements ResourceService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public byte[] get(Integer id) {
         ResourceEntity resource = repo.findById(id)
                 .orElseThrow(NotFoundException::new);
@@ -51,11 +54,13 @@ public class ResourceServiceImpl implements ResourceService {
     }
 
     @Override
+    @Transactional
     public List<Integer> delete(List<Integer> ids) {
         ids.forEach(id -> {
             ResourceEntity resource = repo.findById(id)
                     .orElseThrow(NotFoundException::new);
             fileStore.delete(awsProperties.getBucketName(), resource.getFileName());
+            repo.delete(resource);
         });
         return ids;
     }

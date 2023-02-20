@@ -1,4 +1,4 @@
-package processor.infrastructure.rest.song;
+package com.microservices.training.processor.infrastructure.rest.song;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

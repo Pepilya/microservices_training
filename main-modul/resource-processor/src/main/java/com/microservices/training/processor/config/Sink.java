@@ -1,4 +1,4 @@
-package processor.config;
+package com.microservices.training.processor.config;
 
 import org.springframework.cloud.stream.annotation.Input;
 import org.springframework.messaging.SubscribableChannel;

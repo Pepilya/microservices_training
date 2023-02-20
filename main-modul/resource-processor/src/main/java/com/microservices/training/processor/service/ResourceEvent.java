@@ -1,4 +1,4 @@
-package processor.service;
+package com.microservices.training.processor.service;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
