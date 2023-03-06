@@ -1,0 +1,41 @@
+server:
+  port: 8082
+
+spring:
+  cloud:
+    stream:
+      default:
+        group: resource-processor.local
+      kafka:
+        default:
+          consumer:
+            startOffset: latest
+            autoCommitOffset: false
+            maxAttempts: 2
+            defaultRetryable: false
+            enableDlq: true
+            dlqName: dlq-resources
+        binder:
+          brokers: localhost:9092,localhost:9093,localhost:9094
+      bindings:
+        resources:
+          destination: resources.dev
+          contentType: application/json
+
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 1000
+        readTimeout: 1000
+        retryer: com.microservices.training.processor.config.FeignRetryConfig
+        errorDecoder: com.microservices.training.processor.config.FeignErrorDecoder
+
+resources-client:
+  url: http://localhost:8080
+  name: "resources"
+
+songs-client:
+  url: http://localhost:8081
+  name: "songs"
